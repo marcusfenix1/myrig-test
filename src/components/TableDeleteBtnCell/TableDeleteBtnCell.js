@@ -6,10 +6,10 @@ const DeleteBtn = styled.button`
   height: 24px;
   object-fit: contain;
 `;
-const TableDeleteBtnCell = ({ onRemove, idx }) => {
+const TableDeleteBtnCell = ({ onRemove, id }) => {
   return (
     <td>
-      <DeleteBtn type="button" onClick={() => onRemove(idx)}></DeleteBtn>
+      <DeleteBtn type="button" onClick={() => onRemove(id)}></DeleteBtn>
     </td>
   );
 };

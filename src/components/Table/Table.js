@@ -15,21 +15,29 @@ import TableCheckboxCell from "../TableCheckboxCell/TableCheckboxCell";
 import hardcodeData from "../../hardcode";
 
 const Table = () => {
-  const [data, setData] = useState(hardcodeData);
+  const [data, setData] = useState(
+    hardcodeData.map((item) => ({
+      ...item,
+      id: uuidv4(),
+    }))
+  );
+  const [checkedItemsId, setCheckedItemsId] = useState([]);
   const [status, setChecked] = useState({ checked: false, checkedAll: false });
 
   useEffect(() => {});
 
-  function handleRemove(idx) {
-    const newData = data.filter((item, i) => i !== idx);
+  function handleRemove(id) {
+    const newData = data.filter((item) => item.id !== id);
 
     return setData(newData);
   }
 
   function handleCheck() {}
 
-  function updateCheck() {
-    setChecked({ checked: false });
+  function updateCheckedItem() {
+    setCheckedItemsId((prevState) => {
+      return { ...prevState, isChecked: true };
+    });
   }
 
   return (
@@ -55,8 +63,8 @@ const Table = () => {
       </thead>
       <tbody>
         {data.map((item, i) => (
-          <tr key={i}>
-            <TableCheckboxCell />
+          <tr key={item.id}>
+            <TableCheckboxCell id={item.id} />
             <TableIndexCell idx={i} />
             <TableFullNameCell
               firstName={item.first_name}
@@ -67,7 +75,11 @@ const Table = () => {
             <TableWeightCell weight={item.weight} />
             <TableSalaryCell salary={item.salary} />
             <TableEditBtnCell />
-            <TableDeleteBtnCell onRemove={handleRemove} idx={i} />
+            <TableDeleteBtnCell
+              onRemove={handleRemove}
+              id={item.id}
+              updateCheckedItem={updateCheckedItem}
+            />
           </tr>
         ))}
       </tbody>
