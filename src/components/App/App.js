@@ -4,7 +4,11 @@ import Table from "../Table/Table";
 // import './App.css';
 
 function App() {
-  return <Layout>{<Table />}</Layout>;
+  return (
+    <Layout>
+      <Table />
+    </Layout>
+  );
 }
 
 export default App;

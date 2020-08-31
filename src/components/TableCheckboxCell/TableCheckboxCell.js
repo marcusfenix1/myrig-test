@@ -1,9 +1,13 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 
-const TableCheckboxCell = ({ isChecked, id }) => {
+const TableCheckboxCell = ({ isChecked, id, updateCheckedItem }) => {
   return (
     <td>
-      <input type="checkbox" onChange={() => {}} />
+      <input
+        type="checkbox"
+        checked={isChecked}
+        onChange={() => updateCheckedItem(id)}
+      />
     </td>
   );
 };
