@@ -19,24 +19,53 @@ import fetchEmployeesData from "../../services/fetchEmployeesData";
 //============STYLES======================//
 
 const StyledTable = styled.table`
+  caption,
+  tbody,
+  tfoot,
+  thead,
+  tr,
+  th,
+  td {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    font: inherit;
+  }
+
+  td,
+  th {
+    height: 48px;
+    font-size: 14px;
+    color: #4c4c4c;
+  }
+
+  tbody tr {
+    :nth-of-type(even) {
+      background-color: #fafafa;
+    }
+  }
+
   width: 1200px;
+  margin-bottom: 24px;
   border-collapse: collapse;
-  border-radius: 6px;
   box-shadow: 0 4px 10px 0 rgba(0, 0, 0, 0.1);
   border: solid 1px #f5f5f5;
+  border-radius: 6px;
   background-color: #ffffff;
 `;
 
 const TableCaption = styled.caption`
-  font-size: 24px;
-  font-weight: bold;
-  font-stretch: normal;
-  font-style: normal;
-  line-height: normal;
-  letter-spacing: normal;
-  color: #4c4c4c;
-  margin-bottom: 16px;
-  text-align: left;
+  && {
+    font-size: 24px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    color: #4c4c4c;
+    margin-bottom: 16px;
+    text-align: left;
+  }
 `;
 
 const Table = () => {
@@ -121,7 +150,7 @@ const Table = () => {
 
   return (
     <>
-      <StyledTable className="table">
+      <StyledTable>
         <TableCaption>Таблица пользователей</TableCaption>
         <TableHead updateCheckStatus={updateCheckStatus} status={status} />
         <tbody>
@@ -147,7 +176,7 @@ const Table = () => {
           ))}
         </tbody>
       </StyledTable>
-      <TableDeleteCheckedBtn onDeleteChecked={handleDeleteItems} />
+      <TableDeleteCheckedBtn onDeleteChecked={handleDeleteItems} data={data} />
     </>
   );
 };
