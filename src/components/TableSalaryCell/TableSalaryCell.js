@@ -10,7 +10,7 @@ const TableSalaryCell = ({ salary }) => {
       setUsdSalary(result);
     };
     fetchData();
-  }, []);
+  }, [salary]);
 
   return <td>{usdSalary}</td>;
 };

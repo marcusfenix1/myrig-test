@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { v4 as uuidv4 } from "uuid";
 
+import TableHead from "../TableHead/TableHead";
 import TableDeleteCheckedBtn from "../TableDeleteCheckedBtn/TableDeleteButton";
 import TableFullNameCell from "../TableFullNameCell/TableFullNameCell";
 import TableIndexCell from "../TableIndexCell/TableIndexCell";
@@ -13,50 +14,63 @@ import TableWeightCell from "../TableWeightCell/TableWeightCell";
 import TableSalaryCell from "../TableSalaryCell/TableSalaryCell";
 import TableCheckboxCell from "../TableCheckboxCell/TableCheckboxCell";
 
-import hardcodeData from "../../hardcode";
+import fetchEmployeesData from "../../services/fetchEmployeesData";
+
+//============STYLES======================//
+
+const StyledTable = styled.table`
+  width: 1200px;
+  border-collapse: collapse;
+  border-radius: 6px;
+  box-shadow: 0 4px 10px 0 rgba(0, 0, 0, 0.1);
+  border: solid 1px #f5f5f5;
+  background-color: #ffffff;
+`;
+
+const TableCaption = styled.caption`
+  font-size: 24px;
+  font-weight: bold;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: normal;
+  letter-spacing: normal;
+  color: #4c4c4c;
+  margin-bottom: 16px;
+  text-align: left;
+`;
 
 const Table = () => {
   const [status, setChecked] = useState(false);
-  const [data, setData] = useState(
-    hardcodeData.map((item) => ({
-      ...item,
-      id: uuidv4(),
-      isChecked: false,
-    }))
-  );
+  const [data, setData] = useState([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const result = await fetchEmployeesData.fetchEmployees();
+      const data = result.map((item) => ({
+        ...item,
+        id: uuidv4(),
+        isChecked: false,
+      }));
+      setData(data);
+    };
+    fetchData();
+  }, []);
 
   useEffect(() => {
     if (data.every((item) => item.isChecked)) {
-      return setChecked(true);
+      setChecked(true);
+    } else setChecked(false);
+    if (data.length === 0) {
+      setChecked(false);
     }
-    setChecked(false);
   }, [data]);
-
-  // useEffect(() => {
-  //   const fetchData = async () => {
-  //     const result = await fetchEmployeesData.fetchEmployees();
-  //     setData(
-  //       result.map((item) => ({
-  //         ...item,
-  //         id: uuidv4(),
-  //         isChecked: false,
-  //       }))
-  //     );
-  //   };
-  //   fetchData();
-
-  //   if (data.every((item) => item.isChecked)) {
-  //     return setChecked(true);
-  //   }
-  //   setChecked(false);
-  // }, [data]);
 
   function handleRemove(id) {
     const newData = data.filter((item) => item.id !== id);
     return setData(newData);
   }
 
-  function handleCheck() {
+  function updateCheckStatus() {
     if (status) {
       const newData = data.map((item) => {
         return { ...item, isChecked: false };
@@ -107,26 +121,9 @@ const Table = () => {
 
   return (
     <>
-      <table className="table">
-        <thead>
-          <tr>
-            <th>
-              <input
-                type="checkbox"
-                onChange={() => handleCheck()}
-                checked={status}
-              />
-            </th>
-            <th>№</th>
-            <th>ФИО</th>
-            <th>Возраст (лет)</th>
-            <th>Рост</th>
-            <th>Вес</th>
-            <th>Зарплата</th>
-            <th></th>
-            <th></th>
-          </tr>
-        </thead>
+      <StyledTable className="table">
+        <TableCaption>Таблица пользователей</TableCaption>
+        <TableHead updateCheckStatus={updateCheckStatus} status={status} />
         <tbody>
           {data.map((item, i) => (
             <tr key={item.id}>
@@ -149,7 +146,7 @@ const Table = () => {
             </tr>
           ))}
         </tbody>
-      </table>
+      </StyledTable>
       <TableDeleteCheckedBtn onDeleteChecked={handleDeleteItems} />
     </>
   );
