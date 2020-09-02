@@ -20,6 +20,11 @@ const Button = styled.button`
     background-color: #02597e;
   }
 
+  :active,
+  :focus {
+    outline: none;
+  }
+
   :disabled {
     border: solid 2px #dadada;
     background-color: #fff;

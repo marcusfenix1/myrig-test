@@ -10,7 +10,7 @@ import TableFullNameCell from "../TableFullNameCell/TableFullNameCell";
 import TableIndexCell from "../TableIndexCell/TableIndexCell";
 import TableRemoveItemBtnCell from "../TableRemoveItemBtnCell/TableRemoveItemBtnCell";
 import TableBirthdayCell from "../TableBirthdayCell/TableBirthdayCell";
-import TableEditBtnCell from "../TableEditBtnCell/TableEditBtnCell";
+import TableEditItemBtnCell from "../TableEditItemBtnCell/TableEditItemBtnCell";
 import TableHeightCell from "../TableHeightCell/TableHeightCell";
 import TableWeightCell from "../TableWeightCell/TableWeightCell";
 import TableSalaryCell from "../TableSalaryCell/TableSalaryCell";
@@ -148,7 +148,7 @@ const Table = () => {
               <TableHeightCell height={item.height} />
               <TableWeightCell weight={item.weight} />
               <TableSalaryCell salary={item.salary} />
-              <TableEditBtnCell />
+              <TableEditItemBtnCell />
               <TableRemoveItemBtnCell
                 onRemove={handleRemoveItem}
                 id={item.id}

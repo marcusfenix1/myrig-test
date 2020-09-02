@@ -21,7 +21,7 @@ const StyledIcon = styled.svg`
   }
 `;
 
-const TableEditBtnCell = () => {
+const TableEditItemBtnCell = () => {
   return (
     <td>
       <EditBtn>
@@ -43,4 +43,4 @@ const TableEditBtnCell = () => {
   );
 };
 
-export default TableEditBtnCell;
+export default TableEditItemBtnCell;
