@@ -13,5 +13,3 @@ const TableHeightCell = ({ height }) => {
 };
 
 export default TableHeightCell;
-
-// const m = Math.floor((metricHeight / 100).toFixed(1));

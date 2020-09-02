@@ -21,7 +21,7 @@ const StyledIcon = styled.svg`
   }
 `;
 
-const TableDeleteBtnCell = ({ onRemove, id }) => {
+const TableRemoveItemBtnCell = ({ onRemove, id }) => {
   return (
     <td>
       <DeleteBtn type="button" onClick={() => onRemove(id)}>
@@ -43,4 +43,4 @@ const TableDeleteBtnCell = ({ onRemove, id }) => {
   );
 };
 
-export default TableDeleteBtnCell;
+export default TableRemoveItemBtnCell;

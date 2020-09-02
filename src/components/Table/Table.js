@@ -2,36 +2,24 @@ import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { v4 as uuidv4 } from "uuid";
 
+import fetchUsersData from "../../services/fetchUsersData";
+
 import TableHead from "../TableHead/TableHead";
-import TableDeleteCheckedBtn from "../TableDeleteCheckedBtn/TableDeleteButton";
+import TableRemoveItemsButton from "../TableRemoveItemsButton/TableRemoveItemsButton";
 import TableFullNameCell from "../TableFullNameCell/TableFullNameCell";
 import TableIndexCell from "../TableIndexCell/TableIndexCell";
-import TableDeleteBtnCell from "../TableDeleteBtnCell/TableDeleteBtnCell";
+import TableRemoveItemBtnCell from "../TableRemoveItemBtnCell/TableRemoveItemBtnCell";
 import TableBirthdayCell from "../TableBirthdayCell/TableBirthdayCell";
 import TableEditBtnCell from "../TableEditBtnCell/TableEditBtnCell";
 import TableHeightCell from "../TableHeightCell/TableHeightCell";
 import TableWeightCell from "../TableWeightCell/TableWeightCell";
 import TableSalaryCell from "../TableSalaryCell/TableSalaryCell";
 import TableCheckboxCell from "../TableCheckboxCell/TableCheckboxCell";
-
-import fetchEmployeesData from "../../services/fetchEmployeesData";
+import TableTitle from "../TableTitle/TableTitle";
 
 //============STYLES======================//
 
 const StyledTable = styled.table`
-  caption,
-  tbody,
-  tfoot,
-  thead,
-  tr,
-  th,
-  td {
-    margin: 0;
-    padding: 0;
-    border: 0;
-    font: inherit;
-  }
-
   td,
   th {
     height: 48px;
@@ -45,28 +33,16 @@ const StyledTable = styled.table`
     }
   }
 
+  border-collapse: collapse;
+  border-radius: 6px;
+  overflow: hidden;
   width: 1200px;
   margin-bottom: 24px;
-  border-collapse: collapse;
   box-shadow: 0 4px 10px 0 rgba(0, 0, 0, 0.1);
-  border: solid 1px #f5f5f5;
-  border-radius: 6px;
   background-color: #ffffff;
 `;
 
-const TableCaption = styled.caption`
-  && {
-    font-size: 24px;
-    font-weight: bold;
-    font-stretch: normal;
-    font-style: normal;
-    line-height: normal;
-    letter-spacing: normal;
-    color: #4c4c4c;
-    margin-bottom: 16px;
-    text-align: left;
-  }
-`;
+//========================================//
 
 const Table = () => {
   const [status, setChecked] = useState(false);
@@ -74,7 +50,7 @@ const Table = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const result = await fetchEmployeesData.fetchEmployees();
+      const result = await fetchUsersData.fetchData();
       const data = result.map((item) => ({
         ...item,
         id: uuidv4(),
@@ -82,6 +58,7 @@ const Table = () => {
       }));
       setData(data);
     };
+
     fetchData();
   }, []);
 
@@ -89,13 +66,19 @@ const Table = () => {
     if (data.every((item) => item.isChecked)) {
       setChecked(true);
     } else setChecked(false);
+
     if (data.length === 0) {
       setChecked(false);
     }
   }, [data]);
 
-  function handleRemove(id) {
+  function handleRemoveItem(id) {
     const newData = data.filter((item) => item.id !== id);
+    return setData(newData);
+  }
+
+  function handleRemoveItems() {
+    const newData = data.filter((item) => !item.isChecked);
     return setData(newData);
   }
 
@@ -104,6 +87,7 @@ const Table = () => {
       const newData = data.map((item) => {
         return { ...item, isChecked: false };
       });
+
       setChecked(false);
       return setData(newData);
     }
@@ -112,15 +96,14 @@ const Table = () => {
       const newData = data.map((item) => {
         return { ...item, isChecked: true };
       });
+
       setChecked(true);
       return setData(newData);
     }
   }
 
-  function updateCheckedItem(id) {
+  function updateIsCheckedItem(id) {
     const isCheckedItem = data.find((item) => item.id === id);
-
-    console.log(isCheckedItem);
 
     if (isCheckedItem.isChecked === true) {
       const newItems = data.map((item) => {
@@ -143,22 +126,17 @@ const Table = () => {
     }
   }
 
-  function handleDeleteItems() {
-    const newData = data.filter((item) => !item.isChecked);
-    return setData(newData);
-  }
-
   return (
     <>
+      <TableTitle />
       <StyledTable>
-        <TableCaption>Таблица пользователей</TableCaption>
         <TableHead updateCheckStatus={updateCheckStatus} status={status} />
         <tbody>
           {data.map((item, i) => (
             <tr key={item.id}>
               <TableCheckboxCell
                 id={item.id}
-                updateCheckedItem={updateCheckedItem}
+                updateIsCheckedItem={updateIsCheckedItem}
                 isChecked={item.isChecked}
               />
               <TableIndexCell idx={i} />
@@ -171,12 +149,15 @@ const Table = () => {
               <TableWeightCell weight={item.weight} />
               <TableSalaryCell salary={item.salary} />
               <TableEditBtnCell />
-              <TableDeleteBtnCell onRemove={handleRemove} id={item.id} />
+              <TableRemoveItemBtnCell
+                onRemove={handleRemoveItem}
+                id={item.id}
+              />
             </tr>
           ))}
         </tbody>
       </StyledTable>
-      <TableDeleteCheckedBtn onDeleteChecked={handleDeleteItems} data={data} />
+      <TableRemoveItemsButton onRemove={handleRemoveItems} data={data} />
     </>
   );
 };

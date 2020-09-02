@@ -1,18 +1,18 @@
 import React from "react";
 import styled from "styled-components";
 
+//============STYLES======================//
+
 const Thead = styled.thead`
   background-color: #f0f0f0;
 
   tr > th {
     text-align: left;
-    font-size: 14px;
     font-weight: bold;
     font-stretch: normal;
     font-style: normal;
     line-height: normal;
     letter-spacing: normal;
-    color: #4c4c4c;
   }
 `;
 
@@ -57,6 +57,8 @@ const StyledColumn = styled.th`
     text-align: center;
   }
 `;
+
+//========================================//
 
 const TableHead = ({ updateCheckStatus, status }) => {
   return (

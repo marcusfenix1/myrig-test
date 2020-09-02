@@ -32,7 +32,7 @@ const Button = styled.button`
   }
 `;
 
-const TableDeleteButton = ({ onDeleteChecked, data }) => {
+const TableRemoveItemsButton = ({ onRemove, data }) => {
   const [status, setStatus] = useState(false);
 
   useEffect(() => {
@@ -42,10 +42,10 @@ const TableDeleteButton = ({ onDeleteChecked, data }) => {
   }, [data]);
 
   return (
-    <Button type="button" disabled={status} onClick={() => onDeleteChecked()}>
+    <Button type="button" disabled={status} onClick={() => onRemove()}>
       Удалить выбранные
     </Button>
   );
 };
 
-export default TableDeleteButton;
+export default TableRemoveItemsButton;

@@ -39,13 +39,13 @@ const StyledCell = styled.td`
   text-align: center;
 `;
 
-const TableCheckboxCell = ({ isChecked, id, updateCheckedItem }) => {
+const TableCheckboxCell = ({ isChecked, id, updateIsCheckedItem }) => {
   return (
     <StyledCell>
       <CheckboxContainer>
         <HiddenCheckbox
           checked={isChecked}
-          onChange={() => updateCheckedItem(id)}
+          onChange={() => updateIsCheckedItem(id)}
         />
         <StyledCheckbox checked={isChecked}>
           <Icon viewBox="0 0 24 24">
